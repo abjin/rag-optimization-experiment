@@ -1,0 +1,8 @@
+.DS_store
+.venv
+.env
+.vscode
+ko
+*.log
+
+
