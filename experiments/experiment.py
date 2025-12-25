@@ -117,7 +117,7 @@ def run_batch_experiments(question="", ground_truth=""):
     return results
 
 
-if __name__ == "__main__":
+def main():
     with open("questions.json", "r", encoding="utf-8") as f:
         questions = json.load(f)
 
@@ -136,6 +136,15 @@ if __name__ == "__main__":
         )
         result.extend(batch_results)
         print(f"Completed {len(batch_results)} experiments for question {idx}")
+    return result
+
+
+if __name__ == "__main__":
+    result = []
+    for i in range(3):
+        print(f"run {i+1}/3 started")
+        result.extend(main())
+        print(f"run {i+1}/3 completed")
 
     with open("experiment_results.json", "w", encoding="utf-8") as f:
         json.dump(result, f, ensure_ascii=False, indent=2)
