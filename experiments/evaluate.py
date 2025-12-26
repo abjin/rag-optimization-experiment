@@ -40,4 +40,5 @@ def main():
 
 if __name__ == "__main__":
     results = main()
-    results.to_json("evaluation_results.json")
+    results = results.to_pandas()
+    results.to_csv("evaluation_results.csv")
