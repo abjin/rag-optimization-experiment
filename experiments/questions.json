@@ -1,6 +1,86 @@
 [
   {
     "question": "쿠버네티스가 무엇인가요?",
-    "ground_truth": "쿠버네티스는 컨테이너화된 애플리케이션의 배포, 확장 및 관리를 자동화하기 위한 오픈소스 컨테이너 오케스트레이션 엔진이다."
+    "reference": "쿠버네티스는 컨테이너화된 애플리케이션의 배포, 확장 및 관리를 자동화하기 위한 오픈소스 컨테이너 오케스트레이션 엔진이다."
+  },
+  {
+    "question": "클라우드 컨트롤러 매니저의 내부 컨트롤러에는 어떤 것들이 포함되나?",
+    "reference": "노드 컨트롤러, 라우트 컨트롤러, 서비스 컨트롤러가 포함됩니다."
+  },
+  {
+    "question": "API 서버에서 kubelet으로의 연결은 어떤 용도로 사용되나?",
+    "reference": "파드 로그 가져오기, 실행 중인 파드 연결, 포트-포워딩 기능 제공의 용도로 사용됩니다."
+  },
+  {
+    "question": "쿠버네티스 컨트롤러는 무엇을 하나?",
+    "reference": "컨트롤러는 쿠버네티스 리소스를 추적하며 현재 상태를 의도한 상태에 가깝게 만듭니다."
+  },
+  {
+    "question": "캐스케이딩 삭제에는 어떤 종류가 있나?",
+    "reference": "포그라운드 캐스케이딩 삭제와 백그라운드 캐스케이딩 삭제 두 가지가 있습니다."
+  },
+  {
+    "question": "노드의 컴포넌트에는 어떤 것들이 포함되나?",
+    "reference": "kubelet, 컨테이너 런타임, kube-proxy가 포함됩니다."
+  },
+  {
+    "question": "쿠버네티스의 자가 치유를 제공하는 주요 컴포넌트는 무엇인가?",
+    "reference": "kubelet, 레플리카셋/스테이트풀셋/데몬셋 컨트롤러, 퍼시스턴트볼륨 컨트롤러가 포함됩니다."
+  },
+  {
+    "question": "클러스터-레벨 로깅을 구현하는 방법에는 어떤 것들이 있나?",
+    "reference": "노드-레벨 로깅 에이전트 사용, 사이드카 컨테이너 포함, 애플리케이션에서 백엔드로 직접 푸시하는 방법이 있습니다."
+  },
+  {
+    "question": "kubectl patch가 지원하는 패치 유형에는 어떤 것들이 있나?",
+    "reference": "JSON 패치, JSON 병합 패치, 전략적 병합 패치를 지원합니다."
+  },
+  {
+    "question": "현재 SIG Autoscaling에서 관리하는 노드 오토스케일러에는 어떤 것들이 있나?",
+    "reference": "클러스터 오토스케일러와 Karpenter가 있습니다."
+  },
+  {
+    "question": "노드 셧다운의 종류에는 어떤 것들이 있나?",
+    "reference": "그레이스풀 노드 셧다운과 논 그레이스풀 노드 셧다운이 있습니다."
+  },
+  {
+    "question": "쿠버네티스에서 사용할 수 있는 프락시에는 어떤 것들이 있나?",
+    "reference": "kubectl proxy, apiserver proxy, kube proxy, API 서버 앞단의 프락시/로드밸런서, 외부 서비스의 클라우드 로드 밸런서가 있습니다."
+  },
+  {
+    "question": "쿠버네티스 컴포넌트들이 추적을 생성할 때 사용하는 프로토콜과 exporter는 무엇인가?",
+    "reference": "OpenTelemetry 프로토콜과 gRPC exporter를 사용합니다."
+  },
+  {
+    "question": "컨테이너 라이프사이클 훅의 종류에는 어떤 것들이 있나?",
+    "reference": "PostStart와 PreStop이 있습니다."
+  },
+  {
+    "question": "imagePullPolicy에 설정할 수 있는 값에는 어떤 것들이 있나?",
+    "reference": "IfNotPresent, Always, Never가 있습니다."
+  },
+  {
+    "question": "런타임클래스 리소스의 중요 필드에는 어떤 것들이 있나?",
+    "reference": "런타임클래스 이름과 런타임 핸들러가 있습니다."
+  },
+  {
+    "question": "커스텀 리소스를 추가하는 방법에는 어떤 것들이 있나?",
+    "reference": "CRD와 API 애그리게이션이 있습니다."
+  },
+  {
+    "question": "리밋레인지가 제공하는 제약 조건에는 어떤 것들이 있나?",
+    "reference": "파드 또는 컨테이너별 최소 및 최대 컴퓨팅 리소스 사용량 지정, 퍼시스턴트볼륨클레임별 최소 및 최대 스토리지 요청 지정, 리소스 요청과 제한 사이의 비율 지정, 컴퓨팅 리소스에 대한 기본 요청 및 제한 설정이 있다."
+  },
+  {
+    "question": "PID 기반 축출에서 설정할 수 있는 축출 정책의 종류에는 어떤 것들이 있나?",
+    "reference": "소프트 축출 정책과 하드 축출 정책이 있다."
+  },
+  {
+    "question": "리소스 쿼터의 범위에는 어떤 것들이 있나?",
+    "reference": "Terminating, NotTerminating, BestEffort, NotBestEffort, PriorityClass, CrossNamespacePodAffinity가 있습니다."
+  },
+  {
+    "question": "퍼시스턴트볼륨의 접근 모드에는 어떤 것들이 있나?",
+    "reference": "ReadWriteOnce, ReadOnlyMany, ReadWriteMany, ReadWriteOncePod가 있습니다."
   }
 ]
