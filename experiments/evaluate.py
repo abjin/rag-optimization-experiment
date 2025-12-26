@@ -100,7 +100,7 @@ async def main():
 
     results = []
     dataset_len = len(dataset)
-    batch_size = 50
+    batch_size = 10
     print(f"Evaluating {dataset_len} examples in batches of {batch_size}...")
 
     for i in range(0, dataset_len, batch_size):
