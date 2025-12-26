@@ -1,20 +1,23 @@
 import os
 import time
 import json
+import asyncio
 from google.genai import types
 from google import genai
 from dotenv import load_dotenv
-from pinecone import Pinecone
+from pinecone import Pinecone, PineconeAsyncio
 
 load_dotenv()
 
 client = genai.Client()
-pc = Pinecone(api_key=os.environ.get("PINECONE_API_KEY"))
-index = pc.Index("rag-notes")
+
+pc_sync = Pinecone(api_key=os.environ.get("PINECONE_API_KEY"))
+index_info = pc_sync.describe_index("rag-notes")
+INDEX_HOST = index_info.host
 
 
-def embed_query(user_input):
-    result = client.models.embed_content(
+async def embed_query(user_input):
+    result = await client.aio.models.embed_content(
         model="gemini-embedding-001",
         contents=user_input,
         config=types.EmbedContentConfig(output_dimensionality=1024)
@@ -23,20 +26,22 @@ def embed_query(user_input):
     return embedding_obj.values
 
 
-def retrieve_relevant_documents(user_input, top_k=3, namespace=""):
-    result = index.query(
-        vector=embed_query(user_input),
-        top_k=top_k,
-        namespace=namespace,
-        include_metadata=True
-    )
-    return result.matches
+async def retrieve_relevant_documents(user_input, top_k=3, namespace=""):
+    async with PineconeAsyncio(api_key=os.environ.get("PINECONE_API_KEY")) as pc:
+        async with pc.IndexAsyncio(host=INDEX_HOST) as index:
+            result = await index.query(
+                vector=await embed_query(user_input),
+                top_k=top_k,
+                namespace=namespace,
+                include_metadata=True
+            )
+            return result.matches
 
 
-def run_experiment(question="", ground_truth="", top_k=1, namespace=""):
+async def run_experiment(question="", reference="", top_k=1, namespace=""):
     start_time = time.time()
 
-    retrieved_docs = retrieve_relevant_documents(
+    retrieved_docs = await retrieve_relevant_documents(
         question, top_k=top_k, namespace=namespace)
     retrieved_texts = [doc.metadata['text'] for doc in retrieved_docs]
 
@@ -60,7 +65,7 @@ def run_experiment(question="", ground_truth="", top_k=1, namespace=""):
         {question}
     """
 
-    response = client.models.generate_content_stream(
+    response = await client.aio.models.generate_content_stream(
         model="gemini-3-flash-preview",
         contents=prompt
     )
@@ -69,7 +74,7 @@ def run_experiment(question="", ground_truth="", top_k=1, namespace=""):
     last_chunk = None
     result = ""
 
-    for chunk in response:
+    async for chunk in response:
         if ttft is None:
             ttft = time.time() - start_time
         result += chunk.text
@@ -81,7 +86,7 @@ def run_experiment(question="", ground_truth="", top_k=1, namespace=""):
         "question": question,
         "answer": result,
         "contexts": retrieved_texts,
-        "ground_truth": ground_truth,
+        "reference": reference,
         "prompt_tokens": last_chunk.usage_metadata.prompt_token_count,
         "completion_tokens": last_chunk.usage_metadata.candidates_token_count,
         "total_tokens": last_chunk.usage_metadata.total_token_count,
@@ -90,32 +95,36 @@ def run_experiment(question="", ground_truth="", top_k=1, namespace=""):
         "namespace": namespace,
         "top_k": top_k,
     }
+    print("completed experiment:", namespace, top_k)
     return experiment_result
 
 
-def run_batch_experiments(question="", ground_truth=""):
+async def run_batch_experiments(question="", reference=""):
 
     namespace_options = ["cs256-ov0", "cs256-ov15", "cs256-ov30",
                          "cs512-ov0", "cs512-ov15", "cs512-ov30",
                          "cs1024-ov0", "cs1024-ov15", "cs1024-ov30"]
     top_k_options = [1, 3, 5]
 
-    results = []
-    for namespace in namespace_options:
-        for k in top_k_options:
-            result = run_experiment(
-                question=question,
-                ground_truth=ground_truth,
-                top_k=k,
-                namespace=namespace,
-            )
-            results.append(result)
-            print('Completed experiment:', namespace, k)
+    tasks = [
+        run_experiment(
+            question=question,
+            reference=reference,
+            top_k=top_k,
+            namespace=namespace,
+        )
+        for top_k in top_k_options
+        for namespace in namespace_options
+    ]
 
-    return results
+    results = await asyncio.gather(*tasks)
+    print(
+        f"Completed {len(results)} experiments (top_k options: {top_k_options})")
+
+    return list(results)
 
 
-def main():
+async def main():
     with open("questions.json", "r", encoding="utf-8") as f:
         questions = json.load(f)
 
@@ -128,23 +137,27 @@ def main():
         print(f"Question: {qa['question']}")
         print(f"{'='*60}")
 
-        batch_results = run_batch_experiments(
+        batch_results = await run_batch_experiments(
             question=qa["question"],
-            ground_truth=qa["ground_truth"],
+            reference=qa["reference"],
         )
         result.extend(batch_results)
         print(f"Completed {len(batch_results)} experiments for question {idx}")
     return result
 
 
-if __name__ == "__main__":
+async def run_all():
     result = []
     for i in range(3):
         print(f"run {i+1}/3 started")
-        result.extend(main())
+        result.extend(await main())
         print(f"run {i+1}/3 completed")
 
     with open("experiment_results.json", "w", encoding="utf-8") as f:
         json.dump(result, f, ensure_ascii=False, indent=2)
 
     print("Experiment results saved to experiment_results.json")
+
+
+if __name__ == "__main__":
+    asyncio.run(run_all())
