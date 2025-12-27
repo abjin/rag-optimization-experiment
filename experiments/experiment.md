@@ -336,18 +336,74 @@ Top-K, Chunk Size 가 동일하다고 가정할 경우, Overlap 이 변동되더
 
 ![TopK vs Quality](./plot/topk-vs-quality.png)
 
+Faithfulness는 topK가 1일때 0.95, topK가 3일때 0.92, topK가 5 일때 0.93 값을 보였습니다.
+Faithfulness는 모든 topK 에서 전반적으로 높은 값을 보였습니다.
+
+Aanswer Relevency는 topK가 1일때 0.61, topK가 3일때 0.6916, topK가 5일때 0.61 값을 보였습니다.
+Aanswer Relevency는 topK가 3일때 최대값을 보였습니다.
+
+Context Recall은 topK 가 1일때 0.71, topK가 3일때 0.87, topK가 5일때 0.88 값을 보였습니다.
+Context Recall은 topK가 증가에 따라 같이 증가하는 경향성을 보였습니다.
+
+Context Precision은 topK 가 1일때 0.66, topK가 3일때 0.82, topK가 5일때 0.73 값을 보였습니다.
+Context Precision은 topK가 3일때 최대값을 보였습니다.
+
+
 ![TopK vs Cost](./plot/topk-vs-cost.png)
+
+latency는 topK가 1일때 5.53초, topK가 3일때 5.96초, topK가 5일때 6.72초 값을 보였습니다.
+latency는 topK가 가 증가하면서 약간씩 증가하는 늘어나는 경향을 보였습니다.
+
+Total Tokens은 topK가 1일때 894, topK가 3일때 1364, topK가 5일때 1912 값을 보였습니다.
+Total Tokens은 topK가 증가함에따라 비례하며 증가하는 경향성을 보였습니다.
 
 ## Chunk Size
 
 ![Chunk Size vs Quality](./plot/chunk-size-vs-quality.png)
 
+Faithfulness는 Chunk Size가 256일때 0.84, Chunk Size가 512일때 0.92, Chunk Size가 1024일때 0.96 값을 보였습니다.
+
+Aanswer Relevency는 Chunk Size가 256일때 0.63, Chunk Size가 512일때 0.69, Chunk Size가 1024일때 0.57 값을 보였습니다.
+Aanswer Relevency는 Chunk Size가 512일때 최대값을 보였습니다.
+
+Context Recall은 Chunk Size 가 256일때 0.66, Chunk Size가 512일때 0.87, Chunk Size가 1024일때 0.90 값을 보였습니다.
+Context Recall은 Chunk Size가 증가에 따라 같이 증가하는 경향성을 보였습니다.
+
+Context Precision은 Chunk Size 가 256일때 0.49, Chunk Size가 512일때 0.82, Chunk Size가 1024일때 0.90 값을 보였습니다.
+Context Precision은 Chunk Size가 1024일때 최대값을 보였습니다.
+
+
+
 ![Chunk Size vs Cost](./plot/chunk-size-vs-cost.png)
+
+latency는 Chunk Size가 256일때 7.20초, Chunk Size가 512일때 5.96초, Chunk Size가 1024일때 6.95초 값을 보였습니다.
+latency는 Chunk Size가 256일때 최대값을 보였고, Chunk Size가 512일때 최솟값을 보였습니다.
+
+Total Tokens은 Chunk Size가 256일때 1263, Chunk Size가 512일때 1364, Chunk Size가 1024일때 2142 값을 보였습니다.
+Total Tokens은 Chunk Size가 증가함에 따라 증가하는 경향성을 보였습니다.
 
 ## Overlap
 
 ![Overlap vs Quality](./plot/overlap-vs-quality.png)
 
+Faithfulness는 Overlap이 0%일떄 0.89, Overlap이 15%일때 0.92, Overlap이 30%일때 0.90 값을 보였습니다.
+
+Aanswer Relevency는 Overlap이 0%일떄 0.64, Overlap이 15%일때 0.69, Overlap이 30%일때 0.64 값을 보였습니다.
+Aanswer Relevency는 Overlap이 15%일때 최대값을 보였습니다.
+
+Context Recall은 Chunk Size 가 0%일떄 0.87, Overlap이 15%일때 0.87, Overlap이 30%일때 0.87 값을 보였습니다.
+Context Recall은 Overlap값과 관계 없이 일관된 수치를 보였습니다.
+
+Context Precision은 Chunk Size 가 0%일떄 0.76, Overlap이 15%일때 0.82, Overlap이 30%일때 0.77 값을 보였습니다.
+Context Precision은 Overlap이 15%일때 최댓값을 보였습니다.
+
 ![Overlap vs Cost](./plot/overlap-vs-cost.png)
+
+latency는 Overlap이 0%일떄 6.66초, Overlap이 15%일때 5.96초, Overlap이 30%일때 6.43초 값을 보였습니다.
+latency는 Overlap이 0%일떄 최대값을 보였고, Overlap이 15%일때 최솟값을 보였습니다.
+
+Total Tokens은 Overlap이 0%일떄 1491, Overlap이 15%일때 1364, Overlap이 30%일때 1477 값을 보였습니다.
+Total Tokens은 0%일떄 최대값을 보였고, Overlap이 15%일때 최솟값을 보였습니다.
+
 
 # 6. Discussion
