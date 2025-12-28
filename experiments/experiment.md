@@ -54,7 +54,7 @@ RAG 성능에 영향을 미치는 요소로는 데이터 전처리 및 인덱싱
 
 - Chunk Size: 문서를 나누는 청크의 크기 (256, 512, 1024 characters)
 - Overlap: 인접한 청크 간 중복되는 문자의 비율 (0%, 15%, 30%)
-- TopK: 벡터 검색 시 반환할 유사 문서의 개수 (3, 5, 10개) 
+- TopK: 벡터 검색 시 반환할 유사 문서의 개수 (1, 3, 5개) 
 
 # 3. System Overview
 
@@ -535,3 +535,5 @@ Total Tokens과 Latency 분석 결과, 토큰 수 및 Latency의 증가는 답�
 기존 설정(TopK=5, Chunk Size=1024, Overlap=30%)을 개선한 결과, Slack RAG 봇의 Answer Correctness를 약 17% 향상시키는 동시에 Total Tokens 사용량을 약 57% 절감하여, 품질과 비용 효율성을 동시에 개선할 수 있었습니다.
 
 실험을 통해 단순한 토큰 증가보다 TopK, Chunk Size, Overlap 파라미터간의 균형이 더 중요하다는 것을 확인할 수 있었습니다.
+
+![optimized-configure](plot/optimized-configure-result.png)
