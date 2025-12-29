@@ -4,7 +4,7 @@ RAG 파라미터(TopK, Chunk Size, Overlap) 최적화 실험
 
 ## Contents
 
-- [`experiment.md`](experiments/experiment.md) - 실험 결과 및 분석 문서
+- [`experiment.md`](experiments/experiment.md) - 실험 결과 및 분석 문서 ([PDF](report.pdf))
 - [`preprocessing_pipeline.py`](experiments/preprocessing_pipeline.py) - 문서 청킹 및 임베딩 파이프라인
 - [`experiment.py`](experiments/experiment.py) - RAG 실험 실행 스크립트
 - [`evaluate.py`](experiments/evaluate.py) - RAGAS 메트릭 기반 성능 평가
