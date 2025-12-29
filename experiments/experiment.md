@@ -556,6 +556,9 @@ Total Tokens과 Latency 분석 결과, 토큰 수 및 Latency의 증가는 답�
 
 ## 9. Appendix
 
-### GitHub Repository
+본 실험의 전처리, 실험 실행, 평가 전 과정은 깃허브에 공개되어 있습니다.
+실험에 사용된 문서 전처리 파이프라인, RAG 실험 스크립트, RAGAS 기반 평가 코드 및
+평가 질문 셋과 결과 데이터는 아래 GitHub 저장소에서 확인할 수 있습니다.
 
-- [실험 코드 저장소](https://github.com/abjin/retrieval-augmented-generation-notes)
+GitHub Repository:  
+https://github.com/abjin/retrieval-augmented-generation-notes
